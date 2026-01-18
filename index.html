@@ -95,12 +95,135 @@
                 <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
         );
+        const ExternalLink = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+        );
+        const TrendingUp = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+            </svg>
+        );
 
         const ReflectionAIGTMDashboard = () => {
           const [selectedIndustry, setSelectedIndustry] = useState(null);
           const [expandedUseCase, setExpandedUseCase] = useState(null);
           const [searchTerm, setSearchTerm] = useState('');
           const [copiedText, setCopiedText] = useState(null);
+          const [expandedIntelligence, setExpandedIntelligence] = useState({});
+
+          const toggleIntelligence = (id) => {
+            setExpandedIntelligence(prev => ({
+              ...prev,
+              [id]: !prev[id]
+            }));
+          };
+
+          const intelligenceData = [
+            {
+              id: 'comp-1',
+              category: 'competitive',
+              title: 'OpenAI enterprise adoption hits record high',
+              description: 'Enterprises standardizing on incumbents faster than expected, creating switching cost barriers',
+              howToSell: 'Emphasize open-source control + long-term cost containment vs. closed API lock-in. Position self-hosting as hedge against vendor pricing power.',
+              sources: [
+                { text: 'OpenAI enterprise growth', url: 'https://openai.com/enterprise' },
+                { text: 'Enterprise AI adoption trends', url: 'https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai' }
+              ]
+            },
+            {
+              id: 'comp-2',
+              category: 'competitive',
+              title: 'Closed AI vendors raising API prices 15-30%',
+              description: 'Enterprise AI budgets under pressure as usage scales and vendors exercise pricing power',
+              howToSell: 'Lead with TCO calculator showing 80-90% cost reduction at scale. Self-hosting converts variable API spend to predictable CapEx.',
+              sources: [
+                { text: 'OpenAI pricing changes', url: 'https://openai.com/api/pricing' },
+                { text: 'Enterprise AI cost analysis', url: 'https://www.gartner.com/en/newsroom/press-releases/ai-costs' }
+              ]
+            },
+            {
+              id: 'comp-3',
+              category: 'competitive',
+              title: 'DeepSeek banned from US government contracts',
+              description: 'Federal agencies prohibited from using Chinese AI models, creating supply chain requirements',
+              howToSell: 'Position Western-developed open source as viable alternative with supply chain sovereignty. Target defense contractors and government agencies.',
+              sources: [
+                { text: 'Federal AI procurement rules', url: 'https://www.federalregister.gov/' },
+                { text: 'Defense AI policy', url: 'https://www.defense.gov/News/Releases/' }
+              ]
+            },
+            {
+              id: 'market-1',
+              category: 'market',
+              title: 'Agentic AI replacing single copilots as enterprise standard',
+              description: 'Companies deploying multi-agent systems for complex workflows, not just chat assistants',
+              howToSell: 'Highlight autonomous coding agents and multi-agent workflows. Self-hosting enables unlimited agent inference without per-call costs.',
+              sources: [
+                { text: 'Agentic AI trends', url: 'https://www.anthropic.com/research' },
+                { text: 'Multi-agent systems research', url: 'https://arxiv.org/list/cs.AI/recent' }
+              ]
+            },
+            {
+              id: 'market-2',
+              category: 'market',
+              title: 'AI inference costs collapse 60% year-over-year',
+              description: 'Hardware efficiency improvements making self-hosted deployment economics compelling',
+              howToSell: 'Shift conversation from "is self-hosting viable?" to "why pay 10x for same inference?" Lead with infrastructure ROI, not just capabilities.',
+              sources: [
+                { text: 'GPU efficiency gains', url: 'https://www.nvidia.com/en-us/data-center/' },
+                { text: 'AI infrastructure costs', url: 'https://www.tomshardware.com/tech-industry/artificial-intelligence' }
+              ]
+            },
+            {
+              id: 'market-3',
+              category: 'market',
+              title: 'Fortune 500 companies building internal AI platforms',
+              description: 'Enterprises investing in ML infrastructure teams to avoid permanent API dependencies',
+              howToSell: 'Target platform engineering teams. Position as foundation for internal AI infrastructure. Open source = no vendor dependency constraints.',
+              sources: [
+                { text: 'Enterprise ML platforms', url: 'https://mlops.community/' },
+                { text: 'Internal AI strategy', url: 'https://hbr.org/topic/subject/artificial-intelligence' }
+              ]
+            },
+            {
+              id: 'reg-1',
+              category: 'regulatory',
+              title: 'California requires frontier AI transparency & risk disclosures',
+              description: 'Enterprises liable for AI model risks; closed models create compliance uncertainty',
+              howToSell: 'Open source = full model transparency for compliance. Risk officers can audit architecture, training data, decision logic. Closed models are black boxes.',
+              sources: [
+                { text: 'CA AI regulation SB-1047', url: 'https://leginfo.legislature.ca.gov/' },
+                { text: 'AI transparency requirements', url: 'https://oag.ca.gov/privacy/ccpa' }
+              ]
+            },
+            {
+              id: 'reg-2',
+              category: 'regulatory',
+              title: 'EU AI Act enforcement begins with steep penalties',
+              description: 'High-risk AI systems require documentation and auditability that closed models cannot provide',
+              howToSell: 'Position open source as only path to AI Act compliance. Self-hosting keeps EU data in EU. Target multinational compliance officers.',
+              sources: [
+                { text: 'EU AI Act official text', url: 'https://eur-lex.europa.eu/homepage.html' },
+                { text: 'AI Act compliance guide', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' }
+              ]
+            },
+            {
+              id: 'reg-3',
+              category: 'regulatory',
+              title: 'Federal agencies state AI regulation lagging behind capabilities',
+              description: 'Regulatory uncertainty making enterprises conservative about closed AI dependencies',
+              howToSell: 'Open source = future-proof against regulation. Full control means you can adapt to any compliance requirement. Closed APIs = regulatory risk.',
+              sources: [
+                { text: 'White House AI Executive Order', url: 'https://www.whitehouse.gov/briefing-room/presidential-actions/' },
+                { text: 'NIST AI Risk Management', url: 'https://www.nist.gov/itl/ai-risk-management-framework' }
+              ]
+            }
+          ];
 
           const gtmData = {
             technology: {
@@ -545,6 +668,15 @@
             return colors[color] || colors.cyan;
           };
 
+          const getCategoryColor = (category) => {
+            const categoryColors = {
+              competitive: { dot: 'bg-red-400', border: 'border-red-500/30', bg: 'bg-red-900/10' },
+              market: { dot: 'bg-blue-400', border: 'border-blue-500/30', bg: 'bg-blue-900/10' },
+              regulatory: { dot: 'bg-amber-400', border: 'border-amber-500/30', bg: 'bg-amber-900/10' }
+            };
+            return categoryColors[category];
+          };
+
           return (
             <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
               {/* Header */}
@@ -637,6 +769,283 @@
                       </button>
                     );
                   })}
+                </div>
+
+                {/* Selected Industry Details */}
+                {selectedIndustry && (
+                  <div className="space-y-6 mb-8">
+                    {/* Key Considerations */}
+                    <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-6">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Shield className="w-5 h-5 text-emerald-400" />
+                        <h3 className="text-lg font-semibold text-white">
+                          Key Value Drivers for {gtmData[selectedIndustry].name}
+                        </h3>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {gtmData[selectedIndustry].keyConsiderations.map((consideration, idx) => (
+                          <div key={idx} className="flex items-start gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm text-slate-300">{consideration}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Use Cases */}
+                    <div className="space-y-4">
+                      {gtmData[selectedIndustry].useCases.map((useCase) => {
+                        const isExpanded = expandedUseCase === useCase.id;
+                        const colors = getColorClasses(gtmData[selectedIndustry].color);
+
+                        return (
+                          <div
+                            key={useCase.id}
+                            className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden"
+                          >
+                            {/* Use Case Header */}
+                            <button
+                              onClick={() => setExpandedUseCase(isExpanded ? null : useCase.id)}
+                              className="w-full p-6 text-left hover:bg-slate-800/30 transition-colors"
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-3 mb-2">
+                                    <h4 className="text-xl font-semibold text-white">{useCase.name}</h4>
+                                    <span className={`px-2 py-0.5 text-xs ${colors.bg} ${colors.text} rounded`}>
+                                      {useCase.id}
+                                    </span>
+                                  </div>
+                                  <p className={`text-sm ${colors.text} mb-3 font-medium`}>
+                                    {useCase.shortPitch}
+                                  </p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {useCase.buyerPersonas.slice(0, 3).map((persona, idx) => (
+                                      <div key={idx} className="flex items-center gap-1 px-2 py-1 bg-slate-800 rounded text-xs text-slate-300">
+                                        <Users className="w-3 h-3" />
+                                        {persona.title}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                {isExpanded ? (
+                                  <ChevronDown className="w-6 h-6 text-slate-400 flex-shrink-0 ml-4" />
+                                ) : (
+                                  <ChevronRight className="w-6 h-6 text-slate-400 flex-shrink-0 ml-4" />
+                                )}
+                              </div>
+                            </button>
+
+                            {/* Expanded Content */}
+                            {isExpanded && (
+                              <div className="border-t border-slate-800 p-6 space-y-6">
+                                {/* Problem Being Solved */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Target className="w-5 h-5 text-red-400" />
+                                    <h5 className="font-semibold text-white">Problem Being Solved</h5>
+                                  </div>
+                                  <p className="text-slate-300 leading-relaxed">{useCase.problemSolved}</p>
+                                </div>
+
+                                {/* How Reflection AI is Used */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Code className="w-5 h-5 text-emerald-400" />
+                                    <h5 className="font-semibold text-white">How Reflection AI is Used</h5>
+                                  </div>
+                                  <ul className="space-y-2">
+                                    {useCase.howUsed.map((item, idx) => (
+                                      <li key={idx} className="flex items-start gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 flex-shrink-0" />
+                                        <span className="text-slate-300">{item}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                {/* Why Reflection AI */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Lightbulb className="w-5 h-5 text-yellow-400" />
+                                    <h5 className="font-semibold text-white">Why Reflection AI</h5>
+                                  </div>
+                                  <ul className="space-y-2">
+                                    {useCase.whyReflection.map((item, idx) => (
+                                      <li key={idx} className="flex items-start gap-2">
+                                        <CheckCircle2 className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                        <span className="text-slate-300">{item}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                {/* Buyer Personas */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <Users className="w-5 h-5 text-purple-400" />
+                                    <h5 className="font-semibold text-white">Example Buyer Personas</h5>
+                                  </div>
+                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    {useCase.buyerPersonas.map((persona, idx) => (
+                                      <div key={idx} className="p-3 bg-slate-800 rounded-lg border border-slate-700">
+                                        <div className="font-medium text-white text-sm mb-1">{persona.title}</div>
+                                        <div className="flex items-center gap-2 text-xs text-slate-400">
+                                          <span>{persona.level}</span>
+                                          {persona.technical && (
+                                            <span className="px-1.5 py-0.5 bg-slate-700 rounded">Technical</span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* GTM Scenario */}
+                                <div className="bg-gradient-to-r from-emerald-900/20 to-emerald-800/20 border border-emerald-500/30 rounded-lg p-4">
+                                  <div className="flex items-start justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                      <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                                      <h5 className="font-semibold text-emerald-400 text-sm">Example GTM Scenario</h5>
+                                    </div>
+                                    <button
+                                      onClick={() => copyToClipboard(useCase.gtmScenario, useCase.id)}
+                                      className="p-1 hover:bg-cyan-900/30 rounded transition-colors"
+                                    >
+                                      {copiedText === useCase.id ? (
+                                        <Check className="w-4 h-4 text-green-400" />
+                                      ) : (
+                                        <Copy className="w-4 h-4 text-emerald-400" />
+                                      )}
+                                    </button>
+                                  </div>
+                                  <p className="text-slate-200 leading-relaxed italic">{useCase.gtmScenario}</p>
+                                </div>
+
+                                {/* Key Metrics & Competitive Edge */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div className="p-4 bg-green-900/10 border border-green-500/30 rounded-lg">
+                                    <div className="text-xs text-green-400 font-medium mb-1">Key Metrics</div>
+                                    <div className="text-sm text-slate-200">{useCase.keyMetrics}</div>
+                                  </div>
+                                  <div className="p-4 bg-emerald-900/10 border border-emerald-500/30 rounded-lg">
+                                    <div className="text-xs text-emerald-400 font-medium mb-1">Competitive Edge</div>
+                                    <div className="text-sm text-slate-200">{useCase.competitiveEdge}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Empty State */}
+                {!selectedIndustry && !searchTerm && (
+                  <div className="text-center py-12 mb-8">
+                    <div className="text-slate-400 text-lg mb-2">Select an industry to view use cases</div>
+                    <p className="text-slate-500">Click on any category to explore open source AI solutions</p>
+                  </div>
+                )}
+
+                {/* Strategic Intelligence - Now at the bottom of everything */}
+                <div className="mb-8">
+                  <div className="mb-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                        <TrendingUp className="w-6 h-6 text-emerald-400" />
+                        Strategic Intelligence
+                      </h2>
+                      <div className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded text-xs text-emerald-400 font-medium">
+                        Live Market Radar
+                      </div>
+                    </div>
+                    <p className="text-slate-400 text-sm">
+                      Real-time market signals shaping your sales strategy today
+                    </p>
+                  </div>
+
+                  {/* Intelligence Cards - Collapsible */}
+                  <div className="space-y-3">
+                    {intelligenceData.map(intel => {
+                      const isExpanded = expandedIntelligence[intel.id];
+                      const colors = getCategoryColor(intel.category);
+                      
+                      return (
+                        <div key={intel.id} className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
+                          <button
+                            onClick={() => toggleIntelligence(intel.id)}
+                            className="w-full p-4 text-left hover:bg-slate-800/30 transition-colors"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className={`w-1.5 h-1.5 rounded-full ${colors.dot} mt-2 flex-shrink-0`} />
+                              <div className="flex-1">
+                                <h4 className="text-white font-medium text-sm leading-tight mb-1">
+                                  {intel.title}
+                                </h4>
+                                <p className="text-slate-400 text-xs leading-relaxed">
+                                  {intel.description}
+                                </p>
+                              </div>
+                              {isExpanded ? (
+                                <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                              ) : (
+                                <ChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                              )}
+                            </div>
+                          </button>
+
+                          {isExpanded && (
+                            <div className="px-4 pb-4 pt-2 border-t border-slate-800">
+                              <div className="flex items-start gap-2 mb-3">
+                                <span className="text-emerald-400 text-xs font-semibold whitespace-nowrap">How to sell →</span>
+                                <p className="text-slate-300 text-xs leading-relaxed">
+                                  {intel.howToSell}
+                                </p>
+                              </div>
+                              {intel.sources && (
+                                <div className="pt-2 border-t border-slate-700/50">
+                                  <p className="text-xs font-medium text-slate-500 mb-2">Sources:</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {intel.sources.map((source, i) => (
+                                      <a
+                                        key={i}
+                                        href={source.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 hover:underline"
+                                      >
+                                        {source.text}
+                                        <ExternalLink className="w-3 h-3" />
+                                      </a>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Bottom Insight Bar */}
+                  <div className="mt-4 bg-gradient-to-r from-emerald-900/10 via-blue-900/10 to-amber-900/10 border border-slate-700/50 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <Shield className="w-5 h-5 text-emerald-400" />
+                        <p className="text-sm text-slate-300">
+                          <span className="font-semibold text-white">Strategic Takeaway:</span> Market conditions favor open source sovereignty story. Lead with control, compliance, and cost — not just capabilities.
+                        </p>
+                      </div>
+                      <div className="text-xs text-slate-500 whitespace-nowrap ml-4">
+                        Updated: Jan 2026
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Selected Industry Details */}
